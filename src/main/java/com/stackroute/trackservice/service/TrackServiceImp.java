@@ -14,8 +14,7 @@ public class TrackServiceImp implements TrackService {
     TrackRespository trackRespository;
 
 
-
-   @Autowired
+    @Autowired
     public TrackServiceImp(TrackRespository trackRespository) {
         this.trackRespository = trackRespository;
     }
@@ -34,22 +33,25 @@ public class TrackServiceImp implements TrackService {
 
     @Override
     public List<Track> getAllTracks() {
-        List<Track> trackList=trackRespository.findAll();
-         return trackList;
+        List<Track> trackList = trackRespository.findAll();
+        return trackList;
 
     }
 
     @Override
     public Optional<Track> deleteTrackById(int id) {
-        Optional<Track> trackDelete=trackRespository.findById(id);
-        if(trackDelete.isPresent()){
+        Optional<Track> trackDelete = trackRespository.findById(id);
+        if (trackDelete.isPresent()) {
             trackRespository.deleteById(id);
         }
         return trackDelete;
     }
-//    @Override
-//    public Track updateTrack(int id) {
-//
-//        return null;
-//    }
+
+    @Override
+    public Track updateTrack(int id,Track track) {
+        Track update = trackRespository.findById(id).get();
+        update.setName(track.getName());
+        update.setComment(track.getComment());
+        return trackRespository.save(track);
+    }
 }
